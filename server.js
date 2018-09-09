@@ -27,6 +27,8 @@ const handle = app.getRequestHandler()
 // import routes
 const login = require('./server/routes/login')
 const signup = require('./server/routes/signup')
+const activate = require('./server/routes/activate')
+const admin = require('./server/routes/admin')
 
 let limiter = new RateLimit({
   windowMs: 15*60*1000, // 15 minutes
@@ -59,6 +61,8 @@ app.prepare()
     // use routes
     server.use('/login', login)
     server.use('/signup', signup)
+    server.use('/activate', activate)
+    server.use('/admin', admin)
 
     server.get('/posts/:id', (req, res) => {
       return app.render(req, res, '/posts', { id: req.params.id })

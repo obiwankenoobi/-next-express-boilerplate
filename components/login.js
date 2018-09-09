@@ -3,10 +3,10 @@ import { Input } from 'semantic-ui-react';
 import MaterialBtn from '@material-ui/core/Button';
 import Head from 'next/head'
 import isEmail from 'is-email'
-import helper from '../server/config'
-import axios from 'axios'
+import helpers from '../server/config'
 
-class SignupPage extends Component {
+import Link from 'next/link'
+class LoginPage extends Component {
     constructor(props) {
         super(props);
         this.state = { 
@@ -56,27 +56,7 @@ class SignupPage extends Component {
         this.setState({errors}, () => console.log(this.state.errors))
     }
 
-    signup = () => {
-        const isEmail = this.emailValitade(this.state.inputs.email);
-        this.isInputEmpty()
-        console.log(isEmail)
-        if (this.state.inputs.email && isEmail && this.state.inputs.password && this.state.inputs.password.length >= 6) {
-            axios.post(`${helper.server}/signup`, {
-                username:this.state.inputs.email,
-                password:this.state.inputs.password
-            })
-            .then(res => {
-                if (res.data.code == 11000) {
-                    console.log('email exist')
-                } else {
-                    console.log(res.data)
-                }
-            }) 
-            .catch(e => console.log(e))
-        } else {
-            console.log('couldnt do it')
-        }
-    }
+
 
     render() {
         return (
@@ -85,7 +65,8 @@ class SignupPage extends Component {
             <Head>
                 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css"></link>
             </Head>
-                <div className='center'>  
+                <div className='center'>
+                    <h1>Login</h1>  
                     <div >
                         <Input error={this.state.errors.email ? true : false} onChange={(e) => this.handleInput(e)} name='email' placeholder='email' className='center-input'/>                
                     </div>
@@ -95,7 +76,7 @@ class SignupPage extends Component {
                     {this.state.inputs.password.length < 6 && this.state.errors.password ? <label style={{color:'red'}}>pw must be at least 6 chars</label> : null}     
                     <br/>
                     <div >
-                        <MaterialBtn onClick={this.signup} className='center-input'>Signup</MaterialBtn>                
+                        <MaterialBtn onClick={() => this.props.login(this.state, this.setState, this.isInputEmpty)} className='center-input'>Login</MaterialBtn>                
                     </div>
                 </div>
             </div>
@@ -123,4 +104,4 @@ let style = (
     </style>
 )
 
-export default SignupPage;
+export default LoginPage;

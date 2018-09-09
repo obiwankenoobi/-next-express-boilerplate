@@ -50,7 +50,7 @@ function signup(req, res) {
                 // setup email data with unicode symbols
                 let mailOptions = {
                     from: config.nodemailerEmail, // sender address
-                    to: req.body.email, // list of receivers
+                    to: req.body.username, // list of receivers
                     subject: `thanks for signing up (: `, // Subject line
                    html: emailTemp(req, res, token)
                 };//
@@ -66,7 +66,8 @@ function signup(req, res) {
 
                 });
             });
-            res.send({msg:'check your email', account: account})
+            console.log('req.body.username', req.body.username)
+            res.send({msg:'check your email', account: account, emailSentTo:req.body.username})
         }
     });
 
@@ -74,11 +75,11 @@ function signup(req, res) {
 
 app.prepare()
     .then(() => {
-        router.get('/', (req, res) => {
-            const actualPage = '/signup' // the file inside /pages directory which you want to render
-            const queryParams = {} // the param from the url
-            app.render(req, res, actualPage, queryParams) // rendering call 
-        })
+        // router.get('/', (req, res) => {
+        //     const actualPage = '/signup' // the file inside /pages directory which you want to render
+        //     const queryParams = {} // the param from the url
+        //     app.render(req, res, actualPage, queryParams) // rendering call 
+        // })
         router.post('/', (req, res) => {
             signup(req, res)
         })
