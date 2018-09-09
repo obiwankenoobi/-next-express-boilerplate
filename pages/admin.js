@@ -5,7 +5,7 @@ import Login from '../components/login'
 import isEmail from 'is-email'
 import axios from 'axios'
 import helper from '../server/config'
-
+import MaterialBtn from '@material-ui/core/Button';
 class Admin extends Component {
     constructor(props) {
     super(props);
@@ -23,7 +23,8 @@ class Admin extends Component {
             console.log('accessToken' , JSON.parse(localStorage.getItem('user')).accessToken)
             this.setState({
                 accessToken:JSON.parse(localStorage.getItem('user')).accessToken,
-                mount:true
+                mount:true,
+                isSigned:JSON.parse(localStorage.getItem('user')).isSigned
             })
         }
 
@@ -77,6 +78,12 @@ class Admin extends Component {
         }
     }
 
+    logout = () => {
+        let oldStorage = JSON.parse(localStorage.getItem('user'));
+        localStorage.setItem('user', JSON.stringify({...oldStorage, accessToken:undefined}))
+        this.setState({accessToken:undefined})
+    }
+
     emailValitade = (email) => {
         return isEmail(email)
     }
@@ -97,7 +104,12 @@ class Admin extends Component {
                     this.state.accessToken ? 
                     <div>
                     {style}
-                      <h1>Admin</h1>
+                    <div className='right'>
+                        <MaterialBtn onClick={this.logout}>Logout</MaterialBtn>                        
+                    </div>
+                    <br/>
+                    <br/>
+                      <h1 className='text-center'>Admin</h1>
                     </div> 
                     :
                     <div>
@@ -134,6 +146,9 @@ let style = (
       }
       .link {
         margin:5px;
+      }
+      .right {
+          float:right;
       }
     `}
   </style>
