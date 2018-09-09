@@ -6,6 +6,9 @@ import isEmail from 'is-email'
 import axios from 'axios'
 import helper from '../server/config'
 import MaterialBtn from '@material-ui/core/Button';
+import Drawer from '../components/drawer'
+
+
 class Admin extends Component {
     constructor(props) {
     super(props);
@@ -14,7 +17,8 @@ class Admin extends Component {
             password:'',
             email:''
         },
-        errors: {}
+        errors: {},
+        showDrawer:false
         }
     }
 
@@ -89,14 +93,19 @@ class Admin extends Component {
     }
 
 
-
+    toggleDrawerHandler = () => {
+        this.setState({showDrawer:!this.state.showDrawer})
+    } 
 
     
 
 
   render() {
     return(
-        <div>
+        <div classNamer='center'>
+        <Drawer 
+            toggleDrawerHandler={this.toggleDrawerHandler}
+            showDrawer={this.state.showDrawer}/>
             {
                 this.state.mount ?
                 <div>
@@ -110,6 +119,9 @@ class Admin extends Component {
                     <br/>
                     <br/>
                       <h1 className='text-center'>Admin</h1>
+                      <div className='btn-container'>
+                        <MaterialBtn className='center-btn'  onClick={this.toggleDrawerHandler}>menu</MaterialBtn>                          
+                      </div>
                     </div> 
                     :
                     <div>
@@ -130,8 +142,7 @@ class Admin extends Component {
                 }
                 </div> : null
             }
-        </div>
-
+            </div>
     )
   }
 
@@ -150,6 +161,22 @@ let style = (
       .right {
           float:right;
       }
+      .center {
+        width:100%;
+        margin-left:auto;
+        margin-right:auto;
+        margin-top:5rem;
+      }
+      .center-btn {
+        margin-left:auto;
+        margin-right:auto;
+        width:100%
+    }
+    .btn-container {
+        margin-left:auto;
+        margin-right:auto;
+        width:100px;
+    }
     `}
   </style>
 )
