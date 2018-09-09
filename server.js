@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser")
 const bodyParser = require("body-parser")
 const cors = require('cors')
 const RateLimit = require('express-rate-limit')
-
+const path = require('path')
 const config = require('./server/config.js')
 
 // passport imports
@@ -19,10 +19,14 @@ const MongoClient = require('mongodb').MongoClient;
 const {mongoose} = require('./db/mongoose');
 const {User} = require('./db/models/UserSchema.js');
 
-const port = parseInt(process.env.PORT, 10) || 3000
+const port = parseInt(process.env.PORT, 10) || 3010
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
+
+// import routes
+const login = require('./server/routes/login')
+const signup = require('./server/routes/signup')
 
 let limiter = new RateLimit({
   windowMs: 15*60*1000, // 15 minutes
@@ -45,20 +49,16 @@ app.prepare()
       server.use(passport.initialize());
       server.use(passport.session());
       server.use(cors())
-      server.use(limiter)
+      //server.use(limiter) 
 
     // passport initialize
     passport.use(new LocalStrategy(User.authenticate()));
     passport.serializeUser(User.serializeUser());
     passport.deserializeUser(User.deserializeUser());
 
-    server.get('/a', (req, res) => {
-      return app.render(req, res, '/b', req.query)
-    })
-
-    server.get('/b', (req, res) => {
-      return app.render(req, res, '/a', req.query)
-    })
+    // use routes
+    server.use('/login', login)
+    server.use('/signup', signup)
 
     server.get('/posts/:id', (req, res) => {
       return app.render(req, res, '/posts', { id: req.params.id })

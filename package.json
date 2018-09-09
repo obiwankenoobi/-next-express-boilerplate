@@ -8,6 +8,8 @@
     "start": "NODE_ENV=production node server.js -p $PORT"
   },
   "dependencies": {
+    "@material-ui/core": "^3.0.3",
+    "@zeit/next-css": "^0.2.0",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
@@ -15,6 +17,7 @@
     "express": "^4.16.3",
     "express-rate-limit": "^2.12.2",
     "express-session": "^1.15.6",
+    "is-email": "^1.0.0",
     "isomorphic-unfetch": "^2.1.1",
     "jsonwebtoken": "^8.3.0",
     "mongodb": "^3.1.1",
@@ -23,11 +26,14 @@
     "morgan": "^1.9.0",
     "next": "^6.1.1",
     "next-images": "^0.10.6",
+    "nodemailer": "^4.6.8",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^5.0.1",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
+    "semantic-ui-css": "^2.3.3",
+    "semantic-ui-react": "^0.82.3",
     "serve-favicon": "^2.5.0"
   }
 }

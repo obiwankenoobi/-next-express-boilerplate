@@ -1,17 +1,30 @@
 import React from 'react'
 import Link from 'next/link'
 
-export default () => (
-  <ul>
-    <li><Link href='/b' as='/a'><a>a</a></Link></li>
-    <li><Link href='/a' as='/b'><a>b</a></Link></li>
-    <li>
-      <Link
-        href={{pathname: '/posts', query: { id: '2' }}}
-        as='/posts/2'
-      >
-        <a>post #2</a>
-      </Link>
-    </li>
-  </ul>
+
+
+const index = () => (
+  <div>
+  {style}
+    <ul>
+      <Link href='/login'><a className='link'>Login</a></Link>
+      <Link href='/signup'><a className='link'>Signup</a></Link>
+    </ul>
+    <h1 className='text-center'>Comments panel</h1>
+  </div>
 )
+
+let style = (
+  <style>
+    {`
+      .text-center {
+        text-align:center;
+      }
+      .link {
+        margin:5px;
+      }
+    `}
+  </style>
+)
+
+export default index;
