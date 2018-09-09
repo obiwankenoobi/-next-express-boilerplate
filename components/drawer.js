@@ -7,10 +7,10 @@ const DrawerMenu = (props) => {
         <Drawer anchor="right" open={props.showDrawer} onClose={props.toggleDrawerHandler}>
         <div
             style={{width:'300px'}} 
-          tabIndex={0}
-          role="button"
-          onClick={props.toggleDrawerHandler}
-          onKeyDown={props.toggleDrawerHandler}
+            tabIndex={0}
+            role="button"
+            onClick={props.toggleDrawerHandler}
+            onKeyDown={props.toggleDrawerHandler}
         >
         </div>
       </Drawer>

@@ -116,12 +116,12 @@ class Admin extends Component {
                     <div className='right'>
                         <MaterialBtn onClick={this.logout}>Logout</MaterialBtn>                        
                     </div>
+                    <div className='left'>
+                        <MaterialBtn className='center-btn'  onClick={this.toggleDrawerHandler}>menu</MaterialBtn>                          
+                    </div>
                     <br/>
                     <br/>
                       <h1 className='text-center'>Admin</h1>
-                      <div className='btn-container'>
-                        <MaterialBtn className='center-btn'  onClick={this.toggleDrawerHandler}>menu</MaterialBtn>                          
-                      </div>
                     </div> 
                     :
                     <div>
@@ -161,6 +161,9 @@ let style = (
       .right {
           float:right;
       }
+      .left {
+        float:left;
+    }
       .center {
         width:100%;
         margin-left:auto;
