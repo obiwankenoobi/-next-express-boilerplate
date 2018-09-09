@@ -40,7 +40,8 @@ class SignupPage extends Component {
         this.setState({errors})
     }
 
-    isInputEmpty = (...arg) => {
+    isInputEmpty = () => {
+
         const {inputs, errors} = this.state;
 
         for (let key in inputs) {
@@ -48,6 +49,10 @@ class SignupPage extends Component {
                 errors[key] = true;
             }
         }
+        if (inputs.password.length < 6) {
+            errors.password = true;
+        }
+        console.log('errors.password.length', errors.password)
         this.setState({errors}, () => console.log(this.state.errors))
     }
 
@@ -85,8 +90,10 @@ class SignupPage extends Component {
                         <Input error={this.state.errors.email ? true : false} onChange={(e) => this.handleInput(e)} name='email' placeholder='email' className='center-input'/>                
                     </div>
                     <div >
-                        <Input error={this.state.errors.password ? true : false} onChange={(e) => this.handleInput(e)} name='password' type='password' placeholder='password' className='center-input'/>                
+                        <Input error={this.state.errors.password ? true : false} onChange={(e) => this.handleInput(e)} name='password' type='password' placeholder='password' className='center-input'/>           
                     </div>
+                    {this.state.inputs.password.length < 6 && this.state.errors.password ? <label style={{color:'red'}}>pw must be at least 6 chars</label> : null}     
+                    <br/>
                     <div >
                         <MaterialBtn onClick={this.signup} className='center-input'>Signup</MaterialBtn>                
                     </div>

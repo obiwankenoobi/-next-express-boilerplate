@@ -89838,6 +89838,12 @@ function (_Component) {
           }
         }
 
+        if (inputs.password.length < 6) {
+          errors.password = true;
+        }
+
+        console.log('errors.password.length', errors.password);
+
         _this.setState({
           errors: errors
         }, function () {
@@ -89892,30 +89898,30 @@ function (_Component) {
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 78
+          lineNumber: 83
         }
       }, style, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_next_head___default.a, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 80
+          lineNumber: 85
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("link", {
         rel: "stylesheet",
         href: "//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 81
+          lineNumber: 86
         }
       })), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         className: "center",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 83
+          lineNumber: 88
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 84
+          lineNumber: 89
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["a" /* Input */], {
         error: this.state.errors.email ? true : false,
@@ -89927,12 +89933,12 @@ function (_Component) {
         className: "center-input",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 85
+          lineNumber: 90
         }
       })), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 87
+          lineNumber: 92
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_semantic_ui_react__["a" /* Input */], {
         error: this.state.errors.password ? true : false,
@@ -89945,19 +89951,32 @@ function (_Component) {
         className: "center-input",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 88
+          lineNumber: 93
         }
-      })), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+      })), this.state.inputs.password.length < 6 && this.state.errors.password ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("label", {
+        style: {
+          color: 'red'
+        },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 90
+          lineNumber: 95
+        }
+      }, "pw must be at least 6 chars") : null, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("br", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 96
+        }
+      }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 97
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__material_ui_core_Button___default.a, {
         onClick: this.signup,
         className: "center-input",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 91
+          lineNumber: 98
         }
       }, "Signup"))));
     }
@@ -89970,7 +89989,7 @@ var style = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("style",
   jsx: "true",
   __source: {
     fileName: _jsxFileName,
-    lineNumber: 102
+    lineNumber: 109
   }
 }, "\n            .center-input {\n                margin: 0 auto;\n                width:100%;\n                margin-top:0.5rem;\n            }\n            .center {\n                width:40%;\n                margin-left:auto;\n                margin-right:auto;\n                margin-top:5rem;\n            }\n        ");
 /* harmony default export */ __webpack_exports__["default"] = (SignupPage);
