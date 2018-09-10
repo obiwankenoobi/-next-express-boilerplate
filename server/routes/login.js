@@ -1,12 +1,13 @@
-const express = require('express')
-const next = require('next')
-const dev = process.env.NODE_ENV !== 'production'
-const app = next({ dev })
-const router = express.Router()
+const express = require('express');
+const next = require('next');
+const dev = process.env.NODE_ENV !== 'production';
+const app = next({ dev });
+const router = express.Router();
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const {User} = require('../../db/models/UserSchema');
 const config = require('../config');
+
 
 function login(req, res) {
     User.findOneAndUpdate(
@@ -35,12 +36,6 @@ function login(req, res) {
 
 app.prepare()
     .then(() => {
-        // router.get('/', (req, res) => {
-        //     const actualPage = '/login' // the file inside /pages directory which you want to render
-        //     const queryParams = {} // the param from the url
-        //     app.render(req, res, actualPage, queryParams) // rendering call 
-        // })
-
         router.post('/' ,passport.authenticate('local'), function(req, res) {
             login(req, res)
         });

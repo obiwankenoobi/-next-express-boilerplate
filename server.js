@@ -64,10 +64,6 @@ app.prepare()
     server.use('/activate', activate)
     server.use('/admin', admin)
 
-    server.get('/posts/:id', (req, res) => {
-      return app.render(req, res, '/posts', { id: req.params.id })
-    })
-
     server.get('*', (req, res) => {
       return handle(req, res)
     })
