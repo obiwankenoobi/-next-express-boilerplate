@@ -18,30 +18,35 @@ class LoginPage extends Component {
          };
     }
 
+
+
     componentDidUpdate(prevProps) {
-        console.log('componentDidUpdate')
+        // checking if there is any new errors to pass here and if there is - update the state
         if (prevProps.errors != this.props.errors) {
             this.setState({errors:this.props.errors})
         }
     }
 
-    handleInput = (e) => {
 
+    // add the inputs values in theire [name] in state
+    handleInput = (e) => {
         let target = e.target;
         let name = target.name;
-        this.cleanErrors(name);
+        this.cleanErrors(name); // on each type clean the errors to remove the "error" mark on each input
         let value = target.value;
         const {inputs} = this.state;
         inputs[name] = value;
-        this.setState({inputs}, () => console.log(this.state.inputs[name]));
+        this.setState({inputs}, () => console.log(this.state.inputs[name])); // add the input in its proper property in the <inputs> object in state
         console.log(this.props.errors);
     }
 
 
-    emailValitade = (email) => {
-        return isEmail(email)
-    }
+    // // validate if the input is an email
+    // emailValitade = (email) => {
+    //     return isEmail(email)
+    // }
 
+    // clean the errors from the <errors> object in the state
     cleanErrors = (name) => {
         const {errors} = this.state;
         errors[name] = false;
@@ -50,37 +55,25 @@ class LoginPage extends Component {
         this.setState({errors});
     }
 
+
+
+    // checking if the input is empty  
     isInputEmpty = () => {
+        const {inputs, errors} = this.state; // grabing the <inputs> and <errors> objects from the state
 
-        const {inputs, errors} = this.state;
 
-        for (let key in inputs) {
-            if (inputs[key].length == 0) {
-                errors[key] = true;
+        for (let key in inputs) { // rotating through inputs object 
+            if (inputs[key].length == 0) { // if an item inside this object is empty
+                errors[key] = true; // add the [key] (prop name) to the <errors> object 
             }
         }
-        // if (inputs.password.length < 6) {
-        //     errors.password = true;
-        // }
-        console.log('errors.password.length', errors.password)
-        this.setState({errors}, () => console.log(this.state.errors))
-    }
 
-    pwErrMark = () => {
-
+        this.setState({errors}, () => console.log(this.state.errors)) // update the state
     }
 
 
     render() {
-        // let pwErrMark;
-        // if (this.state.errors.errStatus == '401') {
-        //     pwErrMark = (<label style={{color:'red'}}>the password or email are wrong</label>)
-        // }
-        // if (this.state.errors.isEmail === false) {
-        //     pwErrMark = (<label style={{color:'red'}}>email invalid</label>)
-        // }
-        console.log('this.state.errors.isEmailErr', this.state.errors.isEmailErr)
-
+        console.log('this.state.errors', this.state.errors)
         return (
             <div >
             {style}
@@ -95,12 +88,11 @@ class LoginPage extends Component {
                     <div >
                         <Input error={this.state.errors.password ? true : false} onChange={(e) => this.handleInput(e)} name='password' type='password' placeholder='password' className='center-input'/>           
                     </div>
-
                     {this.state.errors.errStatus == '401' ? <label style={{color:'red'}}>the password or email are wrong</label> : null}  
                     {this.state.errors.isEmailErr == true ? <label style={{color:'red'}}>email invalid</label> : null}      
                     <br/>
                     <div >
-                        <MaterialBtn onClick={() => this.props.login(this.state, this.setState, this.isInputEmpty)} className='center-input'>Login</MaterialBtn>                
+                        <MaterialBtn onClick={() => this.props.login(this.state, this.isInputEmpty)} className='center-input'>Login</MaterialBtn>                
                     </div>
                 </div>
             </div>

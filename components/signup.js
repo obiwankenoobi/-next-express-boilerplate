@@ -16,35 +16,46 @@ class SignupPage extends Component {
                 password:'',
                 email:''
             },
-            errors: {}
+            errors:this.props.errors
          };
     }
 
+
     componentDidMount() {
-        if (localStorage.getItem('user')) {
+        if (localStorage.getItem('user')) { // if there is an localStorage object
             this.setState({
-                isSigned:JSON.parse(localStorage.getItem('user')).isSigned,
-                mount:true
+                isSigned:JSON.parse(localStorage.getItem('user')).isSigned, // assign <isSigned> value to the state (if the user was signedup already)
+                // mount:true // flag to render the view bt so it wonk flick between <Login/> and <Signup/> while updating <this.state.isSigned>
             }, () => console.log(this.state.isSigned))
             console.log(JSON.parse(localStorage.getItem('user')))
         }
-        this.setState({mount:true})
     }
 
+
+    componentDidUpdate(prevProps) {
+        // checking if there is any new errors to pass here and if there is - update the state
+        if (prevProps.errors != this.props.errors) {
+            this.setState({errors:this.props.errors})
+        }
+    }
+
+
+    // add the inputs values in theire [name] in state
     handleInput = (e) => {
         let target = e.target;
         let name = target.name;
-        this.cleanErrors(name);
+        this.cleanErrors(name); // on each type clean the errors to remove the "error" mark on each input
         let value = target.value;
         const {inputs} = this.state;
         inputs[name] = value;
-        this.setState({inputs}, () => console.log(this.state.inputs[name]))
+        this.setState({inputs}, () => console.log(this.state.inputs[name])); // add the input in its proper property in the <inputs> object in state
+        console.log(this.props.errors);
     }
 
+
+    // clean the errors from the <errors> object in the state
     isInputEmpty = () => {
-
         const {inputs, errors} = this.state;
-
         for (let key in inputs) {
             if (inputs[key].length == 0) {
                 errors[key] = true;
@@ -57,15 +68,16 @@ class SignupPage extends Component {
         this.setState({errors}, () => console.log(this.state.errors))
     }
 
+    // clean the errors from the <errors> object in the state
     cleanErrors = (name) => {
         const {errors} = this.state;
         errors[name] = false;
-        this.setState({errors})
+        errors.errStatus = '';
+        errors.isEmailErr = false;
+        this.setState({errors});
     }
 
     
-
-
 
     render() {
         return (
@@ -78,15 +90,18 @@ class SignupPage extends Component {
                     <div className='center'>  
                         <h1>Signup</h1>  
                         <div >
-                            <Input error={this.state.errors.email ? true : false} onChange={(e) => this.handleInput(e)} name='email' placeholder='email' className='center-input'/>                
+                            <Input error={this.state.errors.email || this.state.errors.errStatus == 'UserExistsError' ? true : false} onChange={(e) => this.handleInput(e)} name='email' placeholder='email' className='center-input'/>                
                         </div>
                         <div >
                             <Input error={this.state.errors.password ? true : false} onChange={(e) => this.handleInput(e)} name='password' type='password' placeholder='password' className='center-input'/>           
                         </div>
-                        {this.state.inputs.password.length < 6 && this.state.errors.password ? <label style={{color:'red'}}>pw must be at least 6 chars</label> : null}     
+                        {this.state.errors.errStatus == 'UserExistsError' ? <label style={{color:'red'}}>email exist</label> : null}  
+                        {this.state.inputs.password.length < 6 && this.state.errors.password ? <label style={{color:'red'}}>pw must be at least 6 chars</label> : null}  
+                        {this.state.errors.isEmailErr == true ? <label style={{color:'red'}}>email invalid</label> : null}   
+   
                         <br/>
                         <div >
-                            <MaterialBtn onClick={() => this.props.signup(this.state, this.setState, this.isInputEmpty)} className='center-input'>Signup</MaterialBtn>                
+                            <MaterialBtn onClick={() => this.props.signup(this.state, this.isInputEmpty)} className='center-input'>Signup</MaterialBtn>                
                         </div>
                     </div>
                 </div>
