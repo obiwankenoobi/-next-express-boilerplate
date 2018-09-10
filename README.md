@@ -11,7 +11,7 @@ this boilerplate made with Next.js using the next-express example.
 ### how to use
 
 ```sh
-git clone https://github.com/obiwankenoobi/-next-express-boilerplate.git
+git clone https://github.com/obiwankenoobi/next-express-boilerplate.git
 cd /project_folter
 npm install
 npm run dev
