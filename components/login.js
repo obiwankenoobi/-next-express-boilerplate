@@ -92,7 +92,8 @@ class LoginPage extends Component {
                     {this.state.errors.isEmailErr == true ? <label style={{color:'red'}}>email invalid</label> : null}      
                     <br/>
                     <div >
-                        <MaterialBtn onClick={() => this.props.login(this.state, this.isInputEmpty)} className='center-input'>Login</MaterialBtn>                
+                        <MaterialBtn color="primary" variant="outlined" onClick={() => this.props.login(this.state, this.isInputEmpty)} className='center-input'>Login</MaterialBtn>    
+                        <MaterialBtn color="primary" onClick={this.props.moveToSignupOrLogin} className='center-input'>dont have an account?</MaterialBtn>              
                     </div>
                 </div>
             </div>

@@ -129,6 +129,10 @@ class Admin extends Component {
         this.setState({showDrawer:!this.state.showDrawer})
     } 
 
+    // move between <Signup/> and <Login/>
+    moveToSignupOrLogin = () => {
+        this.setState({isSigned:!this.state.isSigned})
+    }
     
 
 
@@ -166,12 +170,14 @@ class Admin extends Component {
                                 signup={this.signup}
                                 login={this.login}
                                 errors={this.state.errors}
+                                moveToSignupOrLogin={this.moveToSignupOrLogin}
                                 /> 
                                 :
                                 <Signup
                                 signup={this.signup}
                                 login={this.login}
                                 errors={this.state.errors}
+                                moveToSignupOrLogin={this.moveToSignupOrLogin}
                                 />
                         }
                     </div>

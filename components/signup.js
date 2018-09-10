@@ -101,7 +101,8 @@ class SignupPage extends Component {
    
                         <br/>
                         <div >
-                            <MaterialBtn onClick={() => this.props.signup(this.state, this.isInputEmpty)} className='center-input'>Signup</MaterialBtn>                
+                            <MaterialBtn color="primary" variant="outlined" onClick={() => this.props.signup(this.state, this.isInputEmpty)} className='center-input'>Signup</MaterialBtn>   
+                            <MaterialBtn color="primary" onClick={this.props.moveToSignupOrLogin} className='center-input'>already have account?</MaterialBtn>              
                         </div>
                     </div>
                 </div>
