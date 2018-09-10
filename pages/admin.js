@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Head from 'next/head'
 import React, { Component } from 'react';
 import Signup from '../components/signup'
 import Login from '../components/login'
@@ -17,9 +18,10 @@ class Admin extends Component {
             password:'',
             email:''
         },
-        errors: {},
-        showDrawer:false
+        errors: {isEmailErr:true},
+        showDrawer:false,
         }
+
     }
 
     componentDidMount() {
@@ -62,9 +64,10 @@ class Admin extends Component {
 
     login = (state, setState , isInputEmptyCB) => {
         const isEmail = this.emailValitade(state.inputs.email);
+        console.log('state.inputs.email', state.inputs.email)
         isInputEmptyCB()
         console.log(isEmail)
-        if (state.inputs.email && isEmail && state.inputs.password && state.inputs.password.length >= 6) {
+        if (state.inputs.email && isEmail && state.inputs.password) {
             axios.post(`${helper.server}/login`, {
                 username:state.inputs.email,
                 password:state.inputs.password
@@ -76,7 +79,16 @@ class Admin extends Component {
                     this.setState({accessToken:res.data.accessToken})
                 }
             }) 
-            .catch(e => console.log(e))
+            .catch(e => {
+                let errStatus = e.response.status; // catching the response status to handle the error
+                const {errors} = this.state;
+                errors.errStatus = errStatus.toString()
+                this.setState({errors})
+            })
+        } else if (isEmail == false) {
+            const {errors} = this.state;
+            errors.isEmailErr = true
+            this.setState({errors})
         } else {
             console.log('couldnt do it')
         }
@@ -102,7 +114,10 @@ class Admin extends Component {
 
   render() {
     return(
-        <div classNamer='center'>
+        <div>
+        <Head>
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"/>
+        </Head>
         <Drawer 
             toggleDrawerHandler={this.toggleDrawerHandler}
             showDrawer={this.state.showDrawer}/>
@@ -117,7 +132,7 @@ class Admin extends Component {
                         <MaterialBtn onClick={this.logout}>Logout</MaterialBtn>                        
                     </div>
                     <div className='left'>
-                        <MaterialBtn className='center-btn'  onClick={this.toggleDrawerHandler}>menu</MaterialBtn>                          
+                        <MaterialBtn className='center-btn'  onClick={this.toggleDrawerHandler}><i className="fas fa-bars"></i></MaterialBtn>                          
                     </div>
                     <br/>
                     <br/>
@@ -130,12 +145,14 @@ class Admin extends Component {
                                 <Login
                                 signup={this.signup}
                                 login={this.login}
-                                errors={this.state.errors}/> 
+                                errors={this.state.errors}
+                                /> 
                                 :
                                 <Signup
                                 signup={this.signup}
                                 login={this.login}
-                                errors={this.state.errors}/>
+                                errors={this.state.errors}
+                                />
                         }
                     </div>
         

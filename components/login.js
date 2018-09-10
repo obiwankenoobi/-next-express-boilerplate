@@ -14,8 +14,15 @@ class LoginPage extends Component {
                 password:'',
                 email:''
             },
-            errors: {}
+            errors:this.props.errors
          };
+    }
+
+    componentDidUpdate(prevProps) {
+        console.log('componentDidUpdate')
+        if (prevProps.errors != this.props.errors) {
+            this.setState({errors:this.props.errors})
+        }
     }
 
     handleInput = (e) => {
@@ -26,7 +33,8 @@ class LoginPage extends Component {
         let value = target.value;
         const {inputs} = this.state;
         inputs[name] = value;
-        this.setState({inputs}, () => console.log(this.state.inputs[name]))
+        this.setState({inputs}, () => console.log(this.state.inputs[name]));
+        console.log(this.props.errors);
     }
 
 
@@ -37,7 +45,9 @@ class LoginPage extends Component {
     cleanErrors = (name) => {
         const {errors} = this.state;
         errors[name] = false;
-        this.setState({errors})
+        errors.errStatus = '';
+        errors.isEmailErr = false;
+        this.setState({errors});
     }
 
     isInputEmpty = () => {
@@ -49,16 +59,28 @@ class LoginPage extends Component {
                 errors[key] = true;
             }
         }
-        if (inputs.password.length < 6) {
-            errors.password = true;
-        }
+        // if (inputs.password.length < 6) {
+        //     errors.password = true;
+        // }
         console.log('errors.password.length', errors.password)
         this.setState({errors}, () => console.log(this.state.errors))
     }
 
+    pwErrMark = () => {
+
+    }
 
 
     render() {
+        // let pwErrMark;
+        // if (this.state.errors.errStatus == '401') {
+        //     pwErrMark = (<label style={{color:'red'}}>the password or email are wrong</label>)
+        // }
+        // if (this.state.errors.isEmail === false) {
+        //     pwErrMark = (<label style={{color:'red'}}>email invalid</label>)
+        // }
+        console.log('this.state.errors.isEmailErr', this.state.errors.isEmailErr)
+
         return (
             <div >
             {style}
@@ -68,12 +90,14 @@ class LoginPage extends Component {
                 <div className='center'>
                     <h1>Login</h1>  
                     <div >
-                        <Input error={this.state.errors.email ? true : false} onChange={(e) => this.handleInput(e)} name='email' placeholder='email' className='center-input'/>                
+                        <Input error={this.state.errors.email ||this.state.errors.isEmailErr == true ? true : false} onChange={(e) => this.handleInput(e)} name='email' placeholder='email' className='center-input'/>                
                     </div>
                     <div >
                         <Input error={this.state.errors.password ? true : false} onChange={(e) => this.handleInput(e)} name='password' type='password' placeholder='password' className='center-input'/>           
                     </div>
-                    {this.state.inputs.password.length < 6 && this.state.errors.password ? <label style={{color:'red'}}>pw must be at least 6 chars</label> : null}     
+
+                    {this.state.errors.errStatus == '401' ? <label style={{color:'red'}}>the password or email are wrong</label> : null}  
+                    {this.state.errors.isEmailErr == true ? <label style={{color:'red'}}>email invalid</label> : null}      
                     <br/>
                     <div >
                         <MaterialBtn onClick={() => this.props.login(this.state, this.setState, this.isInputEmpty)} className='center-input'>Login</MaterialBtn>                
