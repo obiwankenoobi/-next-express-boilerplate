@@ -24,4 +24,4 @@ npm run dev
 
 
 ### TODO
-* live demo
+* live demo.
