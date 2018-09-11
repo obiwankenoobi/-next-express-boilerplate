@@ -9,6 +9,17 @@ import helper from '../server/config'
 import MaterialBtn from '@material-ui/core/Button';
 import Drawer from '../components/drawer'
 import ResetPw from '../components/askResetPw';
+import { Provider as AlertProvider } from 'react-alert'
+import AlertTemplate from 'react-alert-template-basic';
+
+
+const options = {
+    position: 'top center',
+    timeout: 5000,
+    offset: '30px',
+    transition: 'scale'
+  }
+
 
 class Admin extends Component {
     constructor(props) {
@@ -154,7 +165,7 @@ class Admin extends Component {
                 email:email
             })
             .then((res) => {
-                this.openResetPwHandler()
+                setTimeout(() => this.openResetPwHandler(),6000);
             })
         }
     }
@@ -191,7 +202,9 @@ class Admin extends Component {
                     <div>
                         {
                             this.state.resetPwFlag ? 
-                            <ResetPw askResetPassword={this.askResetPassword}/> 
+                            <AlertProvider template={AlertTemplate} {...options}>
+                                <ResetPw askResetPassword={this.askResetPassword}/> 
+                            </AlertProvider>
                             :
                             <div>
                             {
