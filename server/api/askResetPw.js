@@ -6,6 +6,7 @@ const {User} = require('../../db/models/UserSchema');
 const config = require('../config');
 const resetPwEmailTemp = require('../Helpers/resetPwTemp');
 const nodemailer = require('nodemailer');
+const isEmail = require('is-email')
 
 
 // validate if the input is valid email
