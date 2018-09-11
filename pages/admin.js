@@ -8,7 +8,7 @@ import axios from 'axios'
 import helper from '../server/config'
 import MaterialBtn from '@material-ui/core/Button';
 import Drawer from '../components/drawer'
-
+import ResetPw from '../components/askResetPw';
 
 class Admin extends Component {
     constructor(props) {
@@ -20,18 +20,28 @@ class Admin extends Component {
         },
         errors: {isEmailErr:false},
         showDrawer:false,
+        resetPwFlag:false
         }
 
     }
 
+    static async getInitialProps (context) {
+        const { reset } = context.query;
+        console.log('reset' , context)
+        return {reset}
+    };
+    
+
     componentDidMount() {
+        console.log('this.props.reset', this.props.reset)
+
         // if there is <localStorage> object
         if (localStorage.getItem('user')) {
             console.log('accessToken' , JSON.parse(localStorage.getItem('user')).accessToken)
             this.setState({
                 accessToken:JSON.parse(localStorage.getItem('user')).accessToken, // set <accessToken></accessToken> in state
                 mount:true, // flag to render the view bt so it wonk flick between <Login/> and <Signup/> while updating <this.state.isSigned>
-                isSigned:JSON.parse(localStorage.getItem('user')).isSigned // check if user signed to know which component to render <Login/>  or <Signup/>
+                isSigned:this.props.reset == 'true' ? true : JSON.parse(localStorage.getItem('user')).isSigned // check if user signed to know which component to render <Login/>  or <Signup/>
             })
         } else {
             this.setState({mount:true}) // turn mount flag even if there is no <localstorge> object
@@ -134,6 +144,20 @@ class Admin extends Component {
         this.setState({isSigned:!this.state.isSigned})
     }
     
+    openResetPwHandler = () => {
+        this.setState({resetPwFlag:!this.state.resetPwFlag})
+    }
+
+    askResetPassword = (email) => {
+        if (email) {
+            axios.post(`${helper.server}/askresetpw`, {
+                email:email
+            })
+            .then((res) => {
+                this.openResetPwHandler()
+            })
+        }
+    }
 
 
   render() {
@@ -141,6 +165,7 @@ class Admin extends Component {
         <div>
         <Head>
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"/>
+            <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css"></link>
         </Head>
         <Drawer 
             toggleDrawerHandler={this.toggleDrawerHandler}
@@ -165,20 +190,28 @@ class Admin extends Component {
                     :
                     <div>
                         {
-                            this.state.isSigned ? 
-                                <Login
-                                signup={this.signup}
-                                login={this.login}
-                                errors={this.state.errors}
-                                moveToSignupOrLogin={this.moveToSignupOrLogin}
-                                /> 
-                                :
-                                <Signup
-                                signup={this.signup}
-                                login={this.login}
-                                errors={this.state.errors}
-                                moveToSignupOrLogin={this.moveToSignupOrLogin}
-                                />
+                            this.state.resetPwFlag ? 
+                            <ResetPw askResetPassword={this.askResetPassword}/> 
+                            :
+                            <div>
+                            {
+                                this.state.isSigned ? 
+                                    <Login
+                                    signup={this.signup}
+                                    login={this.login}
+                                    errors={this.state.errors}
+                                    moveToSignupOrLogin={this.moveToSignupOrLogin}
+                                    openResetPwHandler={this.openResetPwHandler}
+                                    /> 
+                                    :
+                                    <Signup
+                                    signup={this.signup}
+                                    login={this.login}
+                                    errors={this.state.errors}
+                                    moveToSignupOrLogin={this.moveToSignupOrLogin}
+                                    />
+                            }
+                            </div>
                         }
                     </div>
         

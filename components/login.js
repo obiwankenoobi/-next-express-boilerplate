@@ -93,7 +93,8 @@ class LoginPage extends Component {
                     <br/>
                     <div >
                         <MaterialBtn color="primary" variant="outlined" onClick={() => this.props.login(this.state, this.isInputEmpty)} className='center-input'>Login</MaterialBtn>    
-                        <MaterialBtn color="primary" onClick={this.props.moveToSignupOrLogin} className='center-input'>dont have an account?</MaterialBtn>              
+                        <MaterialBtn color="primary" onClick={this.props.moveToSignupOrLogin} className='center-input'>dont have an account?</MaterialBtn>        
+                        <MaterialBtn color="primary" onClick={this.props.openResetPwHandler} className='center-input'>forgot password?</MaterialBtn>        
                     </div>
                 </div>
             </div>

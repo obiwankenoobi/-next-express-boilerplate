@@ -19,7 +19,7 @@ const MongoClient = require('mongodb').MongoClient;
 const {mongoose} = require('./db/mongoose');
 const {User} = require('./db/models/UserSchema.js');
 
-const port = parseInt(process.env.PORT, 10) || 3010
+const port = parseInt(process.env.PORT, 10) || 3012
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
@@ -29,6 +29,10 @@ const login = require('./server/routes/login')
 const signup = require('./server/routes/signup')
 const activate = require('./server/routes/activate')
 const admin = require('./server/routes/admin')
+const resetPassword = require('./server/routes/resetPassword')
+
+// import api
+const askResetPw = require('./server/api/askResetPw')
 
 let limiter = new RateLimit({
   windowMs: 15*60*1000, // 15 minutes
@@ -51,7 +55,7 @@ app.prepare()
       server.use(passport.initialize());
       server.use(passport.session());
       server.use(cors())
-      //server.use(limiter) 
+      server.use(limiter) 
 
     // passport initialize
     passport.use(new LocalStrategy(User.authenticate()));
@@ -63,6 +67,10 @@ app.prepare()
     server.use('/signup', signup)
     server.use('/activate', activate)
     server.use('/admin', admin)
+    server.use('/resetpassword', resetPassword)
+
+    // use api
+    server.use('/askresetpw', askResetPw)
 
     server.get('*', (req, res) => {
       return handle(req, res)

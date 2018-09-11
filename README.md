@@ -6,7 +6,7 @@ this boilerplate made with Next.js using the next-express example.
 * passport authentication
 * side menu drawer in the /admin page
 * user activation by email
-
+* password reset
 
 ### how to use
 

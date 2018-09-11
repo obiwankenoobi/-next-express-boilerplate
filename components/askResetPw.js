@@ -1,0 +1,87 @@
+import React, { Component } from 'react';
+import { Input } from 'semantic-ui-react';
+import MaterialBtn from '@material-ui/core/Button';
+
+class ResetPw extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            errors:{},
+            inputs:{
+                emailReset:''
+            }
+        };
+    }
+
+    // add the inputs values in theire [name] in state
+    handleInput = (e) => {
+        let target = e.target;
+        let name = target.name;
+        //this.cleanErrors(name); // on each type clean the errors to remove the "error" mark on each input
+        let value = target.value;
+        const {inputs} = this.state;
+        inputs[name] = value;
+        this.setState({inputs}, () => console.log(this.state.inputs[name])); // add the input in its proper property in the <inputs> object in state
+        //console.log(this.props.errors);
+    }
+
+
+    // // validate if the input is an email
+    // emailValitade = (email) => {
+    //     return isEmail(email)
+    // }
+
+    // clean the errors from the <errors> object in the state
+    cleanErrors = (name) => {
+        const {errors} = this.state;
+        errors[name] = false;
+        errors.errStatus = '';
+        errors.isEmailErr = false;
+        this.setState({errors});
+    }
+
+
+    render() {
+        return (
+            <div >
+            {style}
+                <div className='center'>
+                    <h1>Reset email</h1>  
+                    <div >
+                        <Input onChange={(e) => this.handleInput(e)}  error={false} name='emailReset' type='text' placeholder='enter email' className='center-input'/>           
+                    </div> 
+                    {
+                      //  this.state.errors.isEmailErr == true ? <label style={{color:'red'}}>email invalid</label> : null
+                    }      
+                    <br/>
+                    <div>
+                        <MaterialBtn onClick={() => this.props.askResetPassword(this.state.inputs.emailReset)} color="primary" variant="outlined"  className='center-input'>Reset</MaterialBtn>              
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+
+
+let style = (
+    <style jsx='true'>
+        {`
+            .center-input {
+                margin: 0 auto;
+                width:100%;
+                margin-top:0.5rem;
+            }
+            .center {
+                width:40%;
+                margin-left:auto;
+                margin-right:auto;
+                margin-top:5rem;
+            }
+        `}
+    </style>
+)
+
+
+export default ResetPw;
