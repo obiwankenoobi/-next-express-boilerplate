@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React, { Component } from 'react';
 
 
-class index extends Comment {
+class index extends Component {
 constructor(props) {
   super(props);
   this.state({
