@@ -5,9 +5,7 @@ import React, { Component } from 'react';
 class index extends Component {
 constructor(props) {
   super(props);
-  this.state({
-    accessToken:this.props.accessToken
-  })
+  this.state = {}
 }
 
 
@@ -24,12 +22,6 @@ constructor(props) {
     )
   }
 
-}
-
-Index.getInitialProps = async () => { // getInitialProps is a Next method to get props to be fetched to the page when its render
-  return {
-    accessToken:JSON.parse(localStorage.getItem('user')).accessToken
-  }
 }
 
 let style = (
