@@ -14,8 +14,7 @@ constructor(props) {
       <div>
       {style}
         <ul>
-          <Link href='/login'><a className='link'>Login</a></Link>
-          <Link href='/signup'><a className='link'>Signup</a></Link>
+          <Link href='/admin'><a className='link'>go to panel</a></Link>
         </ul>
         <h1 className='text-center'>Main app page</h1>
       </div>
